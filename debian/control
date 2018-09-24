@@ -1,0 +1,17 @@
+Source: postgres-exporter
+Section: database
+Priority: optional
+Maintainer: Aleksandr Tataurov <thordendal@thordendal.ru>
+Build-Depends: debhelper (>=9), dh-golang, dh-systemd, golang-1.9-go,
+ golang-github-prometheus-log-dev,
+ golang-prometheus-client-dev,
+Standards-Version: 3.9.7
+Homepage: https://github.com/wrouesnel/postgres_exporter
+#Vcs-Git: git://anonscm.debian.org/collab-maint/postgres-exporter.git
+#Vcs-Browser: https://anonscm.debian.org/cgit/collab-maint/postgres-exporter.git
+
+Package: postgres-exporter
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Prometheus exporter for PostgreSQL
+ Prometheus exporter for PostgreSQL Server metrics

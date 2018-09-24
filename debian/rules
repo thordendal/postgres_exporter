@@ -1,0 +1,48 @@
+#!/usr/bin/make -f
+# See debhelper(7) (uncomment to enable)
+# output every command that modifies files on the build system.
+export DEBPKGNAME = postgres-exporter
+export DH_VERBOSE = 1
+export DH_GOPKG := github.com/wrouesnel/postgres_exporter
+BUILDDIR := $(shell perl -w -MDebian::Debhelper::Buildsystem::golang -e \
+        'print Debian::Debhelper::Buildsystem::golang->new()->get_builddir()')
+
+# see FEATURE AREAS in dpkg-buildflags(1)
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+# see ENVIRONMENT in dpkg-buildflags(1)
+# package maintainers to append CFLAGS
+#export DEB_CFLAGS_MAINT_APPEND  = -Wall -pedantic
+# package maintainers to append LDFLAGS
+#export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
+
+
+%:
+	dh $@ --buildsystem=golang --with=golang --with=systemd
+
+override_dh_auto_configure:
+	dh_auto_configure -O--buildsystem=golang
+	# Include vendored dependencies.
+	#for i in github.com/beevik/ntp github.com/soundcloud/go-runit; do \
+	#    DEST=`dirname $(BUILDDIR)/src/$(DH_GOPKG)/vendor/$$i`; \
+	#    mkdir -p $$DEST; \
+	#    cp -av vendor/$$i $$DEST; \
+	#done
+
+override_dh_auto_install:
+	dh_auto_install
+	# we don't want the golang source (yet?)
+	rm -r debian/$(DEBPKGNAME)/usr/share/gocode
+	# Rename the binary to match the debian package.
+	mv -v debian/$(DEBPKGNAME)/usr/bin/postgres_exporter \
+	    debian/$(DEBPKGNAME)/usr/bin/$(DEBPKGNAME)
+	mkdir -p debian/$(DEBPKGNAME)/etc/postgres-exporter
+	cp queries.yaml debian/queries.yaml.example
+
+override_dh_auto_test:
+
+# dh_make generated override targets
+# This is example for Cmake (See https://bugs.debian.org/641051 )
+#override_dh_auto_configure:
+#	dh_auto_configure -- #	-DCMAKE_LIBRARY_PATH=$(DEB_HOST_MULTIARCH)
+

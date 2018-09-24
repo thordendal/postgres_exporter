@@ -1,0 +1,16 @@
+# The following environment variables configure the exporter:
+
+# Connection settings
+#DATA_SOURCE_NAME=""
+#DATA_SOURCE_URI=
+#DATA_SOURCE_USER=
+#DATA_SOURCE_USER_FILE=
+#DATA_SOURCE_PASS=
+#DATA_SOURCE_PASS_FILE=
+
+# Service settings
+PG_EXPORTER_WEB_LISTEN_ADDRESS=":9187"
+PG_EXPORTER_WEB_TELEMETRY_PATH="/metrics"
+PG_EXPORTER_DISABLE_DEFAULT_METRICS=false
+PG_EXPORTER_EXTEND_QUERY_PATH=/etc/postgresql-exporter/queries.yaml
+
