@@ -1,6 +1,6 @@
-postgres-exporter (0.4.6-3cdek1) xenial; urgency=medium
+postgres-exporter (0.4.6-3) xenial; urgency=medium
 
-  * Use defaults file and queries.yaml config
+  * Use defaults file
 
  -- Aleksandr Tataurov <thordendal@thordendal.ru>  Mon, 24 Sep 2018 11:28:34 +0700
 
